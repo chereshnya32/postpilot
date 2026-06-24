@@ -6,8 +6,8 @@ app = FastAPI()
 
 # Инициализация клиента с использованием ProxyAPI
 client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY"),  # Ваш ключ от ProxyAPI
-    base_url="https://api.proxyapi.ru/openai/v1"  # Адрес ProxyAPI
+    api_key=os.getenv("OPENAI_API_KEY"),          # ключ от ProxyAPI
+    base_url="https://api.proxyapi.ru/openai/v1"  # адрес ProxyAPI
 )
 
 @app.get("/")
@@ -22,7 +22,7 @@ def health():
 def generate_post(business: str, niche: str):
     prompt = f"Напиши пост для соцсетей для бизнеса '{business}' в нише '{niche}'. Пост полезный, вовлекающий, 150-200 слов."
     response = client.chat.completions.create(
-        model="gpt-4o-mini",  # Можно заменить на "gpt-4" или другую модель, доступную в ProxyAPI
+        model="gpt-4o-mini",  # можно заменить на "gpt-4" или другую доступную модель
         messages=[{"role": "user", "content": prompt}]
     )
     return {"post": response.choices[0].message.content}
