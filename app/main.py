@@ -1,6 +1,5 @@
 import os
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
 from openai import OpenAI
 
 app = FastAPI()
@@ -17,8 +16,7 @@ def health():
 
 @app.get("/generate-post")
 def generate_post(business: str, niche: str):
-    prompt = f"Напиши пост для соцсетей для бизнеса '{business}' в нише 
-'{niche}'. Пост полезный, вовлекающий, 150-200 слов."
+    prompt = f"Напиши пост для соцсетей для бизнеса '{business}' в нише '{niche}'. Пост полезный, вовлекающий, 150-200 слов."
     response = openai_client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}]
