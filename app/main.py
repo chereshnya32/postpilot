@@ -1,20 +1,18 @@
 import os
-import httpx
 from fastapi import FastAPI
 from openai import OpenAI
 
-app = FastAPI()
+# Удаляем переменные прокси, которые могут мешать
+os.environ.pop("HTTP_PROXY", None)
+os.environ.pop("HTTPS_PROXY", None)
+os.environ.pop("http_proxy", None)
+os.environ.pop("https_proxy", None)
 
-# Создаём HTTP клиент без прокси (игнорируем системные переменные HTTP_PROXY/HTTPS_PROXY)
-http_client = httpx.Client(
-    proxies=None,  # явно отключаем прокси
-    follow_redirects=True,
-)
+app = FastAPI()
 
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
-    base_url="https://api.proxyapi.ru/openai/v1",
-    http_client=http_client,  # передаём клиент без прокси
+    base_url="https://api.proxyapi.ru/openai/v1"
 )
 
 @app.get("/")
